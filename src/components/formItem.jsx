@@ -46,6 +46,7 @@ const FormInput = styledComponents.input`
     border: 0;
     padding: 0;
     outline: none;
+    width: 100%;
 `;
 
 export function FormItem({

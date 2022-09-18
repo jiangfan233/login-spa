@@ -1,13 +1,46 @@
 import axios from "axios";
 
-const baseUrl = import.meta.env.VITE_baseUrl;
+const baseUrl = import.meta.env.VITE_BASE_URL;
+
+
+const axiosInstance = axios.create();
+
+axiosInstance.interceptors.request.use(
+  function (config) {
+    // 在发送请求之前做些什么
+    return config;
+  },
+
+  function (error) {
+    // 对请求错误做些什么
+    console.error(error);
+  }
+);
+
+axiosInstance.interceptors.response.use(
+  function (response) {
+    // 2xx 范围内的状态码都会触发该函数。
+    // 对响应数据做点什么
+
+    if (response.status !== 0) {
+      alert(response.message); // 此处可用 antd中的message代替
+    }
+
+    return response;
+  },
+  function (error) {
+    // 超出 2xx 范围的状态码都会触发该函数。
+    // 对响应错误做点什么
+    return Promise.reject(error);
+  }
+);
 
 export default function doRequest(options) {
   const { url, ...rest } = options;
 
   const config = Object.assign(
     {
-        baseURL: baseUrl + url,
+      baseURL: baseUrl + url,
       "Access-Control-Allow-Origin": "*",
       // `timeout` 指定请求超时的毫秒数。
       // 如果请求时间超过 `timeout` 的值，则请求会被中断
@@ -17,38 +50,6 @@ export default function doRequest(options) {
       withCredentials: false, // default
     },
     rest
-  );
-
-  const axiosInstance = axios.create();
-
-  axiosInstance.interceptors.request.use(
-    function (config) {
-      // 在发送请求之前做些什么
-      return config;
-    },
-
-    function (error) {
-      // 对请求错误做些什么
-      console.error(error);
-    }
-  );
-
-  axiosInstance.interceptors.response.use(
-    function (response) {
-      // 2xx 范围内的状态码都会触发该函数。
-      // 对响应数据做点什么
-
-      if(response.status !== 0) {
-        alert(response.message);            // 此处可用 antd中的message代替
-      } 
-
-      return response;
-    },
-    function (error) {
-      // 超出 2xx 范围的状态码都会触发该函数。
-      // 对响应错误做点什么
-      return Promise.reject(error);
-    }
   );
 
   return axiosInstance(config);
