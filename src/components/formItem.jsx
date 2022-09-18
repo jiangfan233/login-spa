@@ -55,7 +55,8 @@ export function FormItem({
   name,
   placeholder,
   onChange,
-  err
+  err,
+  type = "text"
 }) {
 
   return (
@@ -67,6 +68,7 @@ export function FormItem({
           value={value}
           placeholder={placeholder}
           onChange={onChange}
+          type={type}
         ></FormInput>
       </FormItemStyle>
       <label className={err ? "form-item-error msg" : "no-error msg"}>{err}</label>

@@ -1,7 +1,5 @@
 import axios from "axios";
 
-console.log(import.meta.env)
-
 const baseUrl = import.meta.env.VITE_baseUrl;
 
 export default function doRequest(options) {

@@ -150,6 +150,7 @@ export function Form() {
       />
 
       <FormItem
+        type="password"
         iconSrc={pcPassword}
         placeholder="请输入密码"
         name="password"
